@@ -1,0 +1,6 @@
+./level08 token
+    ->  You may not access 'token'
+
+ln -s /home/user/level08/token /var/crash/solution
+./level08 /var/crash/solution
+    -> quif5eloekouj29ke0vouxean

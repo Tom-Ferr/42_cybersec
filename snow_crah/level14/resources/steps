@@ -1,0 +1,15 @@
+objdump -d -Mintel /home/user/level13/level13
+    ->  80485cb:       c7 04 24 ef 86 04 08    mov    DWORD PTR [esp],0x80486ef
+        80485d2:       e8 9d fe ff ff          call   8048474 <ft_des>
+
+gdb level13 -ex "x/s 0x80486ef" -ex quit
+    ->  0x80486ef:       "boe]!ai0FB@.:|L6l@A?>qJ}I"
+
+strings -d -t x /bin/getflag
+    ->      1204 boe]!ai0FB@.:|L6l@A?>qJ}I
+            1220 g <t61:|4_|!@IF.-62FH&G~DCK/Ekrvvdwz?v|
+
+reverse engineering ft_des 
+    -> ft_des.c
+
+/var/crash/ft_des 'g <t61:|4_|!@IF.-62FH&G~DCK/Ekrvvdwz?v|'

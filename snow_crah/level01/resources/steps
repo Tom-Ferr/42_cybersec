@@ -1,0 +1,7 @@
+cat /etc/passwd
+    ->  flag01:42hDRfypTqqnw:3001:3001::/home/flag/flag01:/bin/bash
+
+echo -n 42hDRfypTqqnw > password.txt
+
+john password.txt --show
+    ->  abcdefg

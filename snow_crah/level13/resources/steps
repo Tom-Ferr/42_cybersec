@@ -1,0 +1,10 @@
+./level13 
+    -> UID 2013 started us but we we expect 4242
+objdump -d -Mintel
+    ->  80485a1:       e8 da fd ff ff          call   8048380 <getuid@plt>
+gdb level13
+    :break getuid;
+    :run;
+    :fin;
+    :set $eax = 4242;
+    :continue;
