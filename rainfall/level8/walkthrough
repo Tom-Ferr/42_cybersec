@@ -1,0 +1,12 @@
+
+
+analyse the code. Observer that there are 4 commands: ["auth ", "service", "reset", "login"]
+
+
+./level8
+    - "auth "
+    - "reset"
+    - "service"
+    - "service"
+    - "service"
+    - "login"

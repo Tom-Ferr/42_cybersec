@@ -1,0 +1,22 @@
+
+void p(void)
+{
+  unsigned int out;
+  char buff [76];
+  
+  fflush(stdout);
+  gets(buff);
+  if ((out & 0xb0000000) == 0xb0000000) {
+    printf("(%p)\n",out);
+    _exit(1);
+  }
+  puts(buff);
+  strdup(buff);
+  return;
+}
+
+void main(void)
+{
+  p();
+  return;
+}

@@ -1,0 +1,34 @@
+
+char c[68];
+
+void m(void *param_1,int param_2,char *param_3,int param_4,int param_5)
+{
+  time_t tVar1;
+  
+  tVar1 = time((time_t *)0x0);
+  printf("%s - %d\n",c,tVar1);
+  return;
+}
+
+int main(int argc, char** argv)
+{
+  char *buff1;
+  char *buff2;
+  char *buff3;
+  FILE *stream;
+  
+  buff1 = (char *)malloc(8);
+  *buff1 = 1;
+  buff2 = malloc(8);
+  buff1[1] = buff2;
+  buff3 = (char *)malloc(8);
+  *buff3 = 2;
+  buff2 = malloc(8);
+  buff3[1] = buff2;
+  strcpy(buff1[1],*argv[1]);
+  strcpy(buff3[1],*argv[2]);
+  stream = fopen("/home/user/level8/.pass","r");
+  fgets(c,68,stream);
+  puts("~~");
+  return 0;
+}

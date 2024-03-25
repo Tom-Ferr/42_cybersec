@@ -1,0 +1,9 @@
+Analysing main function, only one parameter is passed to atoi.
+Atoi's return will be offsetted with the buffer that contains the target. and place \0
+memcmp will compare our parameter with the target if they are equal we get the access to target.
+
+./bonus3 0
+    memcmp("", "0");
+
+./bonus3 ""
+    memcmp("", "");

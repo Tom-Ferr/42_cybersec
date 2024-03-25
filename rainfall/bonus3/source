@@ -1,0 +1,39 @@
+int main(int argc, char** argv)
+{
+  int ret;
+  int n;
+  undefined4 *puVar3;
+  byte zero;
+  char minor_buff[16];
+  int x;
+  char major_buff[66];
+  FILE *stream;
+  
+  zero = 0;
+  stream = fopen("/home/user/end/.pass","r");
+  puVar3 = minor_buff;
+  for (n = 0x21; n != 0; n = n + -1) {
+    *puVar3 = 0;
+    puVar3 = puVar3 + (uint)zero * -2 + 1;
+  }
+  if ((stream == (FILE *)0x0) || (argc != 2)) {
+    ret = 0xffffffff;
+  }
+  else {
+    fread(minor_buff,1,66,stream);
+    x = 0;
+    n = atoi(*argv[1]);
+    *(undefined *)((int)minor_buff + n) = 0;
+    fread(major_buff,1,65,stream);
+    fclose(stream);
+    n = strcmp((char *)minor_buff,*argv[1]);
+    if (n == 0) {
+      execl("/bin/sh","sh",0);
+    }
+    else {
+      puts(major_buff);
+    }
+    ret = 0;
+  }
+  return ret;
+}
