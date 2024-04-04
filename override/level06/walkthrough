@@ -1,0 +1,9 @@
+the program is asking for a login and a serial. Then, it will cypher the login and finally compares it with the inputed serial. If they match, access to /bin/sh is guaranted!
+All we have to to do is to replicate the cypher algorithmn and use it with a long string. The serial is outputed. Use it when level06 asks you for the serial. As login you should use the string that generted the serial.
+
+gcc cypher.c -o sol6
+/tmp/sol6
+   6249026
+./level06
+  -> abcdefghijklmnopqrstuvwxyz
+  -> 6249026

@@ -1,0 +1,193 @@
+
+int get_unum(void)
+
+{
+  int n [3];
+  
+  n[0] = 0;
+  fflush(stdout);
+  __isoc99_scanf("%u",n);
+  clear_stdin();
+  return n[0];
+}
+
+
+int read_number(int buff)
+
+{
+  int n;
+  
+  printf(" Index: ");
+  n = get_unum();
+  printf(" Number at data[%u] is %u\n",n,*(int *)(n * 4 + buff));
+  return 0;
+}
+
+
+int store_number(int buff)
+
+{
+  uint n;
+  uint i;
+  int ret;
+  
+  printf(" Number: ");
+  n = get_unum();
+  printf(" Index: ");
+  i = get_unum();
+  if ((i % 3 == 0) || (n >> 24 == 0xb7)) {
+    puts(" *** ERROR! ***");
+    puts("   This index is reserved for wil!");
+    puts(" *** ERROR! ***");
+    ret = 1;
+  }
+  else {
+    *(uint *)(i * 4 + buff) = n;
+    ret = 0;
+  }
+  return ret;
+}
+
+
+
+
+int main(int argc,char **argv,char **env)
+{
+  char c;
+  int i;
+  uint len;
+  int *ptr_input;
+  char *ptr;
+  byte *ptr_cmd;
+  int in_GS_OFFSET;
+  bool b1;
+  bool b2;
+  bool b3;
+  byte zero;
+  char **ptr_param_3;
+  char **ptr_param_2;
+  int buff [100];
+  int ctrl;
+  int command;
+  int zebra1;
+  int zebra2;
+  int zebra3;
+  int zebra4;
+  int local_14;
+  
+  zero = 0;
+  ptr_param_2 = argv;
+  ptr_param_3 = env;
+  local_14 = *(int *)(in_GS_OFFSET + 0x14);
+  ctrl = 0;
+  command = 0;
+  zebra1 = 0;
+  zebra2 = 0;
+  zebra3 = 0;
+  zebra4 = 0;
+  ptr_input = buff;
+  for (i = 100; i != 0; i = i + -1) {
+    *ptr_input = 0;
+    ptr_input = ptr_input + 1;
+  }
+  for (; *ptr_param_2 != (char *)0x0; ptr_param_2 = ptr_param_2 + 1) {
+    len = 0xffffffff;
+    ptr = *ptr_param_2;
+    do {
+      if (len == 0) break;
+      len = len - 1;
+      c = *ptr;
+      ptr = ptr + (uint)zero * -2 + 1;
+    } while (c != '\0');
+    memset(*ptr_param_2,0,~len - 1);
+  }
+  for (; *ptr_param_3 != (char *)0x0; ptr_param_3 = ptr_param_3 + 1) {
+    len = 0xffffffff;
+    ptr = *ptr_param_3;
+    do {
+      if (len == 0) break;
+      len = len - 1;
+      c = *ptr;
+      ptr = ptr + (uint)zero * -2 + 1;
+    } while (c != '\0');
+    memset(*ptr_param_3,0,~len - 1);
+  }
+  puts(
+      "----------------------------------------------------\n  Welcome to wil\'s crappy number stora ge service!   \n----------------------------------------------------\n Commands:                                           \n    store - store a number into the data storage    \n    read   - read a number from the data storage     \n    quit  - exit the program                         \n----------------------------------------------------\n   wil has reserved some storage :>                  \n----------------------------------------------------\n"
+      );
+  do {
+    printf("Input command: ");
+    ctrl = 1;
+    fgets((char *)&command,0x14,stdin);
+    len = 0xffffffff;
+    ptr_input = &command;
+    do {
+      if (len == 0) break;
+      len = len - 1;
+      c = *(char *)ptr_input;
+      ptr_input = (int *)((int)ptr_input + (uint)zero * -2 + 1);
+    } while (c != '\0');
+    len = ~len;
+    b1 = len == 1;
+    b3 = len == 2;
+    *(char *)((int)&ctrl + len + 2) = 0;
+    i = 5;
+    ptr_input = &command;
+    ptr_cmd = (byte *)"store";
+    do {
+      if (i == 0) break;
+      i = i + -1;
+      b1 = *(byte *)ptr_input < *ptr_cmd;
+      b3 = *(byte *)ptr_input == *ptr_cmd;
+      ptr_input = (int *)((int)ptr_input + (uint)zero * -2 + 1);
+      ptr_cmd = ptr_cmd + (uint)zero * -2 + 1;
+    } while (b3);
+    b2 = false;
+    b1 = (!b1 && !b3) == b1;
+    if (b1)
+      ctrl = store_number(buff);
+    else {
+      i = 4;
+      ptr_input = &command;
+      ptr_cmd = (byte *)"read";
+      do {
+        if (i == 0) break;
+        i = i + -1;
+        b2 = *(byte *)ptr_input < *ptr_cmd;
+        b1 = *(byte *)ptr_input == *ptr_cmd;
+        ptr_input = (int *)((int)ptr_input + (uint)zero * -2 + 1);
+        ptr_cmd = ptr_cmd + (uint)zero * -2 + 1;
+      } while (b1);
+      b3 = false;
+      b1 = (!b2 && !b1) == b2;
+      if (b1)
+        ctrl = read_number(buff);
+      else {
+        i = 4;
+        ptr_input = &command;
+        ptr_cmd = (byte *)"quit";
+        do {
+          if (i == 0) break;
+          i = i + -1;
+          b3 = *(byte *)ptr_input < *ptr_cmd;
+          b1 = *(byte *)ptr_input == *ptr_cmd;
+          ptr_input = (int *)((int)ptr_input + (uint)zero * -2 + 1);
+          ptr_cmd = ptr_cmd + (uint)zero * -2 + 1;
+        } while (b1);
+        if ((!b3 && !b1) == b3)
+            return 0;
+      }
+    }
+    if (ctrl == 0) {
+      printf(" Completed %s command successfully\n",&command);
+    }
+    else {
+      printf(" Failed to do %s command\n",&command);
+    }
+    command = 0;
+    zebra1 = 0;
+    zebra2 = 0;
+    zebra3 = 0;
+    zebra4 = 0;
+  } while( true );
+}

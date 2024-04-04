@@ -1,0 +1,31 @@
+void main(void)
+{
+  byte prev;
+  uint len;
+  byte *ptr;
+  byte buff [100];
+  uint i;
+  
+  fgets((char *)buff,100,stdin);
+  i = 0;
+  do {
+    len = 0xffffffff;
+    ptr = buff;
+    do {
+      if (len == 0)
+        break;
+      len--;
+      prev = *ptr;
+      ptr++;
+    } while (prev != 0);
+    
+    if (~len - 1 <= i)
+    {
+      printf((char *)buff);
+      exit(0);
+    }
+    if (('@' < (char)buff[i]) && ((char)buff[i] < '['))
+      buff[i] = buff[i] ^ 0x20;
+    i++;
+  } while( true );
+}

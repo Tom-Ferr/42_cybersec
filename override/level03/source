@@ -1,0 +1,148 @@
+
+int decrypt(EVP_PKEY_CTX *ctx, uchar *out, size_t *outlen, uchar *in,size_t inlen)
+
+{
+  char c;
+  uint max;
+  int len;
+  int *ptr;
+  char *congrats;
+  int in_GS_OFFSET;
+  bool lesser;
+  bool equals;
+  uint i;
+  int k1;
+  int k2;
+  int k3;
+  int k4;
+  int k5;
+  int offset;
+  
+  offset = *(int *)(in_GS_OFFSET + 0x14);
+  k1 = 0x757c7d51;
+  k2 = 0x67667360;
+  k3 = 0x7b66737e;
+  k4 = 0x33617c7d;
+  k5 = 0;
+  max = 0xffffffff;
+
+  ptr = &k1;
+  do {
+    if (max == 0)
+      break;
+    max--;
+    c = *(char *)ptr;
+    ptr = (int *)((int)ptr + 1);
+  } while (c != '\0');
+
+  i = 0;
+  while( true ) {
+    lesser = i < ~max - 1;
+    equals = i == ~max - 1;
+    if (!lesser)
+      break;
+    *(byte *)((int)&k1 + i) = (byte)ctx ^ *(byte *)((int)&k1 + i);
+    i++;
+  }
+
+  len = 17;
+  ptr = &k1;
+  congrats = (char *)"Congratulations!";
+  do {
+    if (len == 0)
+      break;
+    len--;
+    lesser = *(char *)ptr < *congrats;
+    equals = *(char *)ptr == *congrats;
+    ptr = (int *)((int)ptr + 1);
+    congrats = congrats + 1;
+  } while (equals);
+
+  if ((!lesser && !equals) == lesser) {
+    len = system("/bin/sh");
+  }
+  else {
+    len = puts("\nInvalid Password");
+  }
+  if (offset == *(int *)(in_GS_OFFSET + 0x14)) {
+    return len;
+  }
+}
+
+void test(int u,int leetdood)
+{
+  EVP_PKEY_CTX *pEVar1;
+  uchar *out;
+  size_t *out_len;
+  uchar *in;
+  size_t in_len;
+  
+  pEVar1 = (EVP_PKEY_CTX *)(leetdood - u);
+  switch(pEVar1) {
+  default:
+    pEVar1 = (EVP_PKEY_CTX *)rand();
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x1:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x2:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x3:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x4:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x5:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x6:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x7:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x8:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x9:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x10:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x11:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x12:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x13:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x14:
+    decrypt(pEVar1,out,out_len,in,in_len);
+    break;
+  case (EVP_PKEY_CTX *)0x15:
+    decrypt(pEVar1,out,out_len,in,in_len);
+  }
+  return;
+}
+
+int main(void)
+{
+  uint __seed;
+  uint u;
+  
+  __seed = time((time_t *)0x0);
+  srand(__seed);
+  puts("***********************************");
+  puts("*\t\tlevel03\t\t**");
+  puts("***********************************");
+  printf("Password:");
+  __isoc99_scanf("%u", u);
+  test(u, 0x1337d00d);
+  return 0;
+}

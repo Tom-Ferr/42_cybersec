@@ -1,0 +1,87 @@
+int verify_user_name(void)
+{
+  int len;
+  char *ptr;
+  char *dat_wil;
+  bool lesser;
+  bool equals;
+  int zero;
+  
+  zero = 0;
+  puts("verifying username....\n");
+  len = 7;
+  ptr = &a_user_name;
+  dat_wil = "dat_wil";
+
+  do {
+    if (len == 0)
+        break;
+    len--;
+    lesser = *ptr < *dat_wil;
+    equals = *ptr == *dat_wil;
+    ptr++;
+    dat_wil++;
+  } while (equals);
+
+  return (int)((!lesser && !equals) - lesser);
+}
+
+int verify_user_pass(char *buff)
+{
+  int len;
+  char *ptr;
+  bool in_CF;
+  bool in_ZF;
+  
+  len = 5;
+  ptr = "admin";
+
+  do {
+    if (len == 0)
+        break;
+    len--;
+    in_CF = *buff < *ptr;
+    in_ZF = *buff == *ptr;
+    buff++;
+    ptr++;
+  } while (in_ZF);
+
+  return (int)((!in_CF && !in_ZF) - in_CF);
+}
+
+int main(void)
+{
+  int ret;
+  int i;
+  char *buff_ptr;
+  char buff[16];
+  int ctrl;
+  
+  buff_ptr = buff;
+  for (i = 16; i != 0; i = i + -1) {
+    *buff_ptr = 0;
+    buff_ptr = buff_ptr + 1;
+  }
+  ctrl = 0;
+  puts("********* ADMIN LOGIN PROMPT *********");
+  printf("Enter Username: ");
+  fgets(&a_user_name,256,stdin);
+  ctrl = verify_user_name();
+  if (ctrl == 0) {
+    puts("Enter Password: ");
+    fgets((char *)buff,100,stdin);
+    ctrl = verify_user_pass(buff);
+    if ((ctrl == 0) || (ctrl != 0)) {
+      puts("nope, incorrect password...\n");
+      ret = 1;
+    }
+    else {
+      ret = 0;
+    }
+  }
+  else {
+    puts("nope, incorrect username...\n");
+    ret = 1;
+  }
+  return ret;
+}

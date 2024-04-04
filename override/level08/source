@@ -1,0 +1,110 @@
+void log_wrapper(FILE *log,char *status,char *file_path)
+{
+  char c;
+  size_t pos;
+  ulong len2;
+  ulong len;
+  char *ptr;
+  long in_FS_OFFSET;
+  byte zero;
+  long log_ptr;
+  char dest [264];
+  
+  zero = 0;
+  log_ptr = log;
+  strcpy(dest,status);
+  len2 = 0xffffffffffffffff;
+  ptr = dest;
+  do {
+    if (len2 == 0) break;
+    len2 = len2 - 1;
+    c = *ptr;
+    ptr = ptr + (ulong)zero * -2 + 1;
+  } while (c != '\0');
+  len = 0xffffffffffffffff;
+  ptr = dest;
+  do {
+    if (len == 0) break;
+    len = len - 1;
+    c = *ptr;
+    ptr = ptr + (ulong)zero * -2 + 1;
+  } while (c != '\0');
+  snprintf(dest + (~len - 1),0xfe - (~len2 - 1),file_path);
+  pos = strcspn(dest,"\n");
+  dest[pos] = '\0';
+  fprintf(log_ptr,"LOG: %s\n",dest);
+  return;
+}
+
+
+int main(int argc,long *argv)
+{
+  char c;
+  int __fd;
+  int fc;
+  FILE *log;
+  FILE *__stream;
+  ulong len;
+  long *ptr;
+  long in_FS_OFFSET;
+  byte zero;
+  char minus_one;
+  long str;
+  short str_cont;
+  char terminator;
+  
+  zero = 0;
+  minus_one = -1;
+  if (argc != 2) {
+    printf("Usage: %s filename\n",*argv);
+  }
+  log = fopen("./backups/.log","w");
+  if (log == (FILE *)0x0) {
+    printf("ERROR: Failed to open %s\n","./backups/.log");
+                    /* WARNING: Subroutine does not return */
+    exit(1);
+  }
+  log_wrapper(log,"Starting back up: ",argv[1]);
+  __stream = fopen((char *)argv[1],"r");
+  if (__stream == (FILE *)0x0) {
+    printf("ERROR: Failed to open %s\n",argv[1]);
+                    /* WARNING: Subroutine does not return */
+    exit(1);
+  }
+  str._0_1_ = '.';
+  str._1_1_ = '/';
+  str._2_1_ = 'b';
+  str._3_1_ = 'a';
+  str._4_1_ = 'c';
+  str._5_1_ = 'k';
+  str._6_1_ = 'u';
+  str._7_1_ = 'p';
+  str_cont._0_1_ = 's';
+  str_cont._1_1_ = '/';
+  terminator = '\0';
+  len = 0xffffffffffffffff;
+  ptr = &str;
+  do {
+    if (len == 0) break;
+    len = len - 1;
+    c = *(char *)ptr;
+    ptr = (long *)((long)ptr + (ulong)zero * -2 + 1);
+  } while (c != '\0');
+  strncat((char *)&str,(char *)argv[1],99 - (~len - 1));
+  __fd = open((char *)&str,0xc1,0x1b0);
+  if (__fd < 0) {
+    printf("ERROR: Failed to open %s%s\n","./backups/",argv[1]);
+                    /* WARNING: Subroutine does not return */
+    exit(1);
+  }
+  while( true ) {
+    fc = fgetc(__stream);
+    minus_one = (char)fc;
+    if (minus_one == -1) break;
+    write(__fd,&minus_one,1);
+  }
+  log_wrapper(log,"Finished back up ",argv[1]);
+  fclose(__stream);
+  close(__fd);
+  return 0;
+}

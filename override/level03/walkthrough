@@ -1,0 +1,10 @@
+
+the program is asking the user to input a number which will be subtracted from 0x1337d00d if the result is not between 1-9 and 16-21 it will generate a random number and pass it to decrypt function.
+in case it is between in those ranges, the result is passed to decryption function. One of then will give to the user access to /bin/sh
+
+
+
+0x1337d00d - 18 = 322424827
+
+./level03
+    -> 322424827

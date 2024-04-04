@@ -1,0 +1,15 @@
+level00@OverRide:~$ objdump -d -Mintel level00
+    08048494 <main>:
+     80484de:       e8 ed fe ff ff          call   80483d0 <__isoc99_scanf@plt>
+     80484e3:       8b 44 24 1c             mov    eax,DWORD PTR [esp+0x1c]
+     80484e7:       3d 9c 14 00 00          cmp    eax,0x149c
+     80484ec:       75 1f                   jne    804850d <main+0x79>
+     80484ee:       c7 04 24 39 86 04 08    mov    DWORD PTR [esp],0x8048639
+     80484f5:       e8 96 fe ff ff          call   8048390 <puts@plt>
+     80484fa:       c7 04 24 49 86 04 08    mov    DWORD PTR [esp],0x8048649
+     8048501:       e8 9a fe ff ff          call   80483a0 <system@plt>
+
+The program calls scanf and compares the scanned number. To be authenticated the user must input 0x149c (5276) gaining access to /bin/sh
+
+./level00
+    -> 5276

